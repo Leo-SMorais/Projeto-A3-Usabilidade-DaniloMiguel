@@ -1,29 +1,36 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// dev: encaminha /api/proxy?url=X pra X (em producao a vercel resolve via serverless function)
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    proxy: {
-      '/api/proxy': {
-        target: 'https://example.com',
-        changeOrigin: true,
-        router(req) {
-          const qs = req.url.split('?')[1] || ''
-          const alvo = new URLSearchParams(qs).get('url')
-          if (!alvo) return null
-          return new URL(alvo).origin
-        },
-        rewrite(path) {
-          const idx = path.indexOf('?')
-          if (idx === -1) return path
-          const alvo = new URLSearchParams(path.slice(idx + 1)).get('url')
-          if (!alvo) return path
-          const u = new URL(alvo)
-          return u.pathname + (u.search || '')
-        },
-      },
+// dev: replica localmente o serverless /api/proxy?url=X (em producao quem responde e a vercel)
+function proxyDevPlugin() {
+  return {
+    name: 'dev-api-proxy',
+    configureServer(server) {
+      server.middlewares.use('/api/proxy', async (req, res) => {
+        const qs = (req.url || '').split('?')[1] || ''
+        const alvo = new URLSearchParams(qs).get('url')
+        if (!alvo) {
+          res.statusCode = 400
+          res.setHeader('Content-Type', 'application/json')
+          res.end(JSON.stringify({ erro: 'parametro url ausente' }))
+          return
+        }
+        try {
+          const r = await fetch(alvo)
+          const texto = await r.text()
+          res.statusCode = r.status
+          res.setHeader('Content-Type', r.headers.get('content-type') || 'application/json')
+          res.end(texto)
+        } catch (e) {
+          res.statusCode = 500
+          res.setHeader('Content-Type', 'application/json')
+          res.end(JSON.stringify({ erro: 'falha ao buscar', detalhes: String(e) }))
+        }
+      })
     },
-  },
+  }
+}
+
+export default defineConfig({
+  plugins: [react(), proxyDevPlugin()],
 })

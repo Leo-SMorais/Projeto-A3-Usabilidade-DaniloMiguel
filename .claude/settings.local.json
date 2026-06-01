@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o nul -w \"status: %{http_code}\\\\nfinal_url: %{url_effective}\\\\n\" -L \"https://mpppersona5-api.onrender.com/personas/\")"
+    ]
+  }
+}

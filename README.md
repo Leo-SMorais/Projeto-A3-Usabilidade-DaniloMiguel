@@ -1,14 +1,8 @@
-# Projeto-A3-Usabilidade-DaniloMiguel 
+# React + Vite
 
-## 💼 Membros
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-| Nome | RA |
-|--------|-----------|
-| 🍷🗿 **Leonardo de Souza Morais** | 824121134 |
-| 🦆 **Matheus Pereira Pagaime** | 823163058 |
-| 🐐 **Daniel Jefferson Rodrigues** | 822129662 |
-| 🤠 **Leonardo Kenji Sato** | 824217196 |
-| 🦸‍♂️ **Henrique Doescher Dias** | 823211819 |
+Currently, two official plugins are available:
 
----
-<img src="https://i.redd.it/ff4py9ryqlt51.png" alt="Personas" style="width: 30%; height: auto; margin-left: 50px">
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
