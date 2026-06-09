@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const CHAVE = 'p5r_tutorial_seen'
 
@@ -57,9 +57,18 @@ export function jaViuTutorial() {
 export default function Tutorial({ aberto, onClose }) {
   const [passo, setPasso] = useState(0)
   const [naoMostrar, setNaoMostrar] = useState(false)
+  const cardRef = useRef(null)
 
   useEffect(() => {
     if (aberto) { setPasso(0); setNaoMostrar(false) }
+  }, [aberto])
+
+  // move o foco pra dentro do tutorial e devolve pra quem abriu quando fechar
+  useEffect(() => {
+    if (!aberto) return
+    const quemAbriu = document.activeElement
+    cardRef.current?.focus()
+    return () => { if (quemAbriu && quemAbriu.focus) quemAbriu.focus() }
   }, [aberto])
 
   useEffect(() => {
@@ -68,6 +77,15 @@ export default function Tutorial({ aberto, onClose }) {
       if (e.key === 'Escape') fechar()
       if (e.key === 'ArrowLeft' && passo > 0) setPasso(passo - 1)
       if (e.key === 'ArrowRight' && passo < SLIDES.length - 1) setPasso(passo + 1)
+      // prende o tab dentro do tutorial enquanto ele estiver aberto
+      if (e.key === 'Tab' && cardRef.current) {
+        const focaveis = cardRef.current.querySelectorAll('button:not([disabled]), input')
+        if (focaveis.length === 0) return
+        const primeiro = focaveis[0]
+        const ultimo = focaveis[focaveis.length - 1]
+        if (e.shiftKey && document.activeElement === primeiro) { e.preventDefault(); ultimo.focus() }
+        else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primeiro.focus() }
+      }
     }
     window.addEventListener('keydown', tecla)
     return () => window.removeEventListener('keydown', tecla)
@@ -88,7 +106,14 @@ export default function Tutorial({ aberto, onClose }) {
 
   return (
     <div className="tutorial-overlay">
-      <div className="tutorial-card">
+      <div
+        ref={cardRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tutorial-titulo"
+        tabIndex={-1}
+        className="tutorial-card"
+      >
         <div className="tutorial-progresso">
           <div className="tutorial-progresso-fill" style={{ width: progresso + '%' }} />
         </div>
@@ -102,7 +127,7 @@ export default function Tutorial({ aberto, onClose }) {
         <div className="tutorial-slide">
           <div className="tutorial-quem">{slide.quem}</div>
           <div className="tutorial-icone">{slide.icone}</div>
-          <h2 className="tutorial-titulo">{slide.titulo}</h2>
+          <h2 id="tutorial-titulo" className="tutorial-titulo">{slide.titulo}</h2>
           <p className="tutorial-texto">{slide.texto}</p>
 
           {slide.arcanas && (

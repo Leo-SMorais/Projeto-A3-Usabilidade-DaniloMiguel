@@ -22,6 +22,19 @@ export default function P3R() {
 
   if (carregando) return <LoaderP3R />
 
+  // navegacao por setas entre as abas (padrao de tabs acessivel)
+  const ordemAbas = ['normal', 'reversa', 'compendio']
+  function teclaAba(e) {
+    const i = ordemAbas.indexOf(aba)
+    let nova = null
+    if (e.key === 'ArrowRight') nova = ordemAbas[(i + 1) % ordemAbas.length]
+    if (e.key === 'ArrowLeft') nova = ordemAbas[(i - 1 + ordemAbas.length) % ordemAbas.length]
+    if (!nova) return
+    e.preventDefault()
+    setAba(nova)
+    document.getElementById('aba-' + nova)?.focus()
+  }
+
   const q = busca.trim().toLowerCase()
   let filtradas = q
     ? personas.filter(p => p.name.toLowerCase().includes(q) || (p.arcana || '').toLowerCase().includes(q))
@@ -38,18 +51,26 @@ export default function P3R() {
 
       {erro && <div className="aviso-erro">Erro ao carregar.</div>}
 
-      <nav className="abas abas-p3">
-        <button type="button" className={'aba aba-p3 ' + (aba === 'normal' ? 'aba-ativa-p3' : '')} onClick={() => setAba('normal')}>Fusão Normal</button>
-        <button type="button" className={'aba aba-p3 ' + (aba === 'reversa' ? 'aba-ativa-p3' : '')} onClick={() => setAba('reversa')}>Busca Reversa</button>
-        <button type="button" className={'aba aba-p3 ' + (aba === 'compendio' ? 'aba-ativa-p3' : '')} onClick={() => setAba('compendio')}>Compêndio</button>
-      </nav>
+      <div role="tablist" aria-label="Seções da página" className="abas abas-p3">
+        <button type="button" role="tab" id="aba-normal" aria-selected={aba === 'normal'} aria-controls="painel-normal" tabIndex={aba === 'normal' ? 0 : -1} onKeyDown={teclaAba} className={'aba aba-p3 ' + (aba === 'normal' ? 'aba-ativa-p3' : '')} onClick={() => setAba('normal')}>Fusão Normal</button>
+        <button type="button" role="tab" id="aba-reversa" aria-selected={aba === 'reversa'} aria-controls="painel-reversa" tabIndex={aba === 'reversa' ? 0 : -1} onKeyDown={teclaAba} className={'aba aba-p3 ' + (aba === 'reversa' ? 'aba-ativa-p3' : '')} onClick={() => setAba('reversa')}>Busca Reversa</button>
+        <button type="button" role="tab" id="aba-compendio" aria-selected={aba === 'compendio'} aria-controls="painel-compendio" tabIndex={aba === 'compendio' ? 0 : -1} onKeyDown={teclaAba} className={'aba aba-p3 ' + (aba === 'compendio' ? 'aba-ativa-p3' : '')} onClick={() => setAba('compendio')}>Compêndio</button>
+      </div>
 
-      {aba === 'normal' && <FusaoNormalP3R personas={personas} onMostrar={setSelecionada} />}
-      {aba === 'reversa' && <FusaoReversaP3R personas={personas} onMostrar={setSelecionada} />}
+      {aba === 'normal' && (
+        <div role="tabpanel" id="painel-normal" aria-labelledby="aba-normal">
+          <FusaoNormalP3R personas={personas} onMostrar={setSelecionada} />
+        </div>
+      )}
+      {aba === 'reversa' && (
+        <div role="tabpanel" id="painel-reversa" aria-labelledby="aba-reversa">
+          <FusaoReversaP3R personas={personas} onMostrar={setSelecionada} />
+        </div>
+      )}
       {aba === 'compendio' && (
-        <div>
+        <div role="tabpanel" id="painel-compendio" aria-labelledby="aba-compendio">
           <div className="barra-busca">
-            <input type="text" className="input-busca input-busca-p3" placeholder="Procurar..." value={busca} onChange={e => setBusca(e.target.value)} />
+            <input type="text" className="input-busca input-busca-p3" aria-label="Procurar persona por nome ou arcana" placeholder="Procurar..." value={busca} onChange={e => setBusca(e.target.value)} />
             <div className="contagem">{filtradas.length} / {personas.length}</div>
           </div>
           <div className="grade">

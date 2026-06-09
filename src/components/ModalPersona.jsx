@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 // modal pra ver detalhes da persona
 // prop jogo serve pra trocar o tema (p5 ou p3)
@@ -19,13 +19,30 @@ const stats = [
 ]
 
 export default function ModalPersona({ persona, onClose, jogo = 'p5' }) {
+  const conteudoRef = useRef(null)
+
   useEffect(() => {
     if (!persona) return
+    // move o foco pra dentro do modal e devolve pra quem abriu quando fechar
+    const quemAbriu = document.activeElement
+    conteudoRef.current?.focus()
     function tecla(e) {
       if (e.key === 'Escape') onClose()
+      // prende o tab dentro do modal enquanto ele estiver aberto
+      if (e.key === 'Tab' && conteudoRef.current) {
+        const focaveis = conteudoRef.current.querySelectorAll('button, [href], input, select, textarea')
+        if (focaveis.length === 0) return
+        const primeiro = focaveis[0]
+        const ultimo = focaveis[focaveis.length - 1]
+        if (e.shiftKey && document.activeElement === primeiro) { e.preventDefault(); ultimo.focus() }
+        else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primeiro.focus() }
+      }
     }
     window.addEventListener('keydown', tecla)
-    return () => window.removeEventListener('keydown', tecla)
+    return () => {
+      window.removeEventListener('keydown', tecla)
+      if (quemAbriu && quemAbriu.focus) quemAbriu.focus()
+    }
   }, [persona, onClose])
 
   if (!persona) return null
@@ -35,11 +52,19 @@ export default function ModalPersona({ persona, onClose, jogo = 'p5' }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className={'modal-conteudo modal-conteudo' + sufixo} onClick={e => e.stopPropagation()}>
-        <button className={'modal-fechar modal-fechar' + sufixo} onClick={onClose}>×</button>
+      <div
+        ref={conteudoRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-persona-titulo"
+        tabIndex={-1}
+        className={'modal-conteudo modal-conteudo' + sufixo}
+        onClick={e => e.stopPropagation()}
+      >
+        <button type="button" className={'modal-fechar modal-fechar' + sufixo} aria-label="Fechar modal" onClick={onClose}>×</button>
 
         <div className={'modal-cabecalho modal-cabecalho' + sufixo}>
-          <h2 className={'modal-nome modal-nome' + sufixo}>{persona.name}</h2>
+          <h2 id="modal-persona-titulo" className={'modal-nome modal-nome' + sufixo}>{persona.name}</h2>
           <span className={'modal-badge modal-badge' + sufixo}>Lvl {persona.level}</span>
           <p className="modal-info">TRAIT: <span>{persona.trait || '—'}</span></p>
           {persona.arcana && <p className="modal-info">ARCANA: <span>{persona.arcana}</span></p>}

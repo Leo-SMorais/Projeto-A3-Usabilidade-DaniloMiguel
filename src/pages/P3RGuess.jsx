@@ -202,6 +202,7 @@ export default function P3RGuess() {
         <input
           type="text"
           className="guess-input"
+          aria-label="Digite o nome de uma persona para dar o palpite"
           placeholder={acabou ? ('A persona era: ' + (alvo ? alvo.name : '')) : 'Digite o nome de uma persona...'}
           value={input}
           onChange={e => { setInput(e.target.value); setAutoAberto(true) }}
