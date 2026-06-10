@@ -150,4 +150,4 @@ vite.config.ts.timestamp-*
 versions/
 
 # claude code
-.claude/
+.claude
