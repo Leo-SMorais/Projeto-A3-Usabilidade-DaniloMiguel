@@ -59,7 +59,7 @@ export default function P5R() {
         <button type="button" className="botao-ajuda" aria-label="Ajuda" onClick={() => setTutorialAberto(true)}>?</button>
       </header>
 
-      {erro && <div className="aviso-erro">Erro ao carregar. Tente recarregar a página.</div>}
+      {erro && <div className="aviso-erro" role="alert">Erro ao carregar. Tente recarregar a página.</div>}
 
       <div role="tablist" aria-label="Seções da página" className="abas abas-p5">
         <button type="button" role="tab" id="aba-normal" aria-selected={aba === 'normal'} aria-controls="painel-normal" tabIndex={aba === 'normal' ? 0 : -1} onKeyDown={teclaAba} className={'aba ' + (aba === 'normal' ? 'aba-ativa-p5' : '')} onClick={() => setAba('normal')}>Fusão Normal</button>

@@ -63,6 +63,24 @@ function classeCor(status) {
   return 'celula-errado'
 }
 
+// simbolo + texto pra nao depender so da cor (wcag 1.4.1)
+const INFO_STATUS = {
+  correto: { simbolo: '✓', texto: 'igual' },
+  parcial: { simbolo: '≈', texto: 'parcial' },
+  errado: { simbolo: '✗', texto: 'diferente' },
+}
+
+function Celula({ status, children }) {
+  const info = INFO_STATUS[status] || INFO_STATUS.errado
+  return (
+    <div className={'guess-celula ' + classeCor(status)}>
+      <span className="celula-simbolo" aria-hidden="true">{info.simbolo}</span>
+      {children}
+      <span className="visualmente-oculto"> ({info.texto})</span>
+    </div>
+  )
+}
+
 export default function P3RGuess() {
   const [personas, setPersonas] = useState([])
   const [carregando, setCarregando] = useState(true)
@@ -180,7 +198,7 @@ export default function P3RGuess() {
         <div className="subtitulo" style={{ color: '#b3d9ff' }}>Adivinhe em 6 tentativas</div>
       </header>
 
-      {erro && <div className="aviso-erro">Erro ao carregar.</div>}
+      {erro && <div className="aviso-erro" role="alert">Erro ao carregar.</div>}
 
       <div className="modos">
         <button type="button" className={'modo-btn ' + (modo === 'diario' ? 'modo-ativo' : '')} onClick={() => setModo('diario')}>🌙 Diário</button>
@@ -188,7 +206,7 @@ export default function P3RGuess() {
       </div>
 
       <div className="status-linha">
-        <span className="status-texto">
+        <span className="status-texto" role="status">
           {acabou
             ? (ganhou ? '✨ Missão Concluída!' : '🌑 Dark Hour Acabou!')
             : 'Tentativa ' + (palpites.length + 1) + ' de ' + MAX_TENTATIVAS}
@@ -240,9 +258,9 @@ export default function P3RGuess() {
       </div>
 
       <p className="legenda">
-        <span className="legenda-bolinha celula-correto" /> Igual{'   '}
-        <span className="legenda-bolinha celula-parcial" /> Parcial{'   '}
-        <span className="legenda-bolinha celula-errado" /> Diferente
+        <span className="legenda-bolinha celula-correto" aria-hidden="true">✓</span> Igual{'   '}
+        <span className="legenda-bolinha celula-parcial" aria-hidden="true">≈</span> Parcial{'   '}
+        <span className="legenda-bolinha celula-errado" aria-hidden="true">✗</span> Diferente
       </p>
     </div>
   )
@@ -253,11 +271,11 @@ function Linha({ ev }) {
   return (
     <>
       <div className="guess-celula celula-nome">{p.name}</div>
-      <div className={'guess-celula ' + classeCor(ev.arcana)}>{p.arcana}</div>
-      <div className={'guess-celula ' + classeCor(ev.nivel.status)}>{p.level} {ev.nivel.seta}</div>
-      <div className={'guess-celula ' + classeCor(ev.weak)}>{formatar(p.weak)}</div>
-      <div className={'guess-celula ' + classeCor(ev.resists)}>{formatar(p.resists)}</div>
-      <div className={'guess-celula ' + classeCor(ev.imune)}>{formatar(pegarImunidades(p))}</div>
+      <Celula status={ev.arcana}>{p.arcana}</Celula>
+      <Celula status={ev.nivel.status}>{p.level} {ev.nivel.seta}</Celula>
+      <Celula status={ev.weak}>{formatar(p.weak)}</Celula>
+      <Celula status={ev.resists}>{formatar(p.resists)}</Celula>
+      <Celula status={ev.imune}>{formatar(pegarImunidades(p))}</Celula>
     </>
   )
 }

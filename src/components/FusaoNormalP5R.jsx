@@ -28,9 +28,9 @@ export default function FusaoNormalP5R({ personas, onMostrar }) {
         <BuscaPersona personas={personas} value={p2} onChange={setP2} label="Persona 2" placeholder="Segunda persona..." />
       </div>
       <button type="button" className="botao-calc" onClick={executar}>Executar</button>
-      {erro && <div className="msg-erro">{erro}</div>}
+      {erro && <div className="msg-erro" role="alert">{erro}</div>}
       {resultado && (
-        <div className="resultado">
+        <div className="resultado" role="status">
           <span className="resultado-label">Resultado:</span>{' '}
           <button type="button" className="resultado-nome" onClick={() => onMostrar(resultado)}>{resultado.name}</button>
           <span className="resultado-meta"> (Arcana: {resultado.arcana}, Nível: {resultado.level})</span>

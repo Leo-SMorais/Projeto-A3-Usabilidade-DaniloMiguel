@@ -120,7 +120,14 @@ export default function Tutorial({ aberto, onClose }) {
 
         <div className="tutorial-bolinhas">
           {SLIDES.map((_, i) => (
-            <span key={i} className={'bolinha ' + (i === passo ? 'bolinha-ativa' : '')} onClick={() => setPasso(i)} />
+            <button
+              key={i}
+              type="button"
+              className={'bolinha ' + (i === passo ? 'bolinha-ativa' : '')}
+              aria-label={'Ir para o passo ' + (i + 1) + ' de ' + SLIDES.length}
+              aria-current={i === passo ? 'step' : undefined}
+              onClick={() => setPasso(i)}
+            />
           ))}
         </div>
 

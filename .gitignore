@@ -148,3 +148,6 @@ vite.config.ts.timestamp-*
 
 # pasta local de snapshots de versoes (nao subir pro repo)
 versions/
+
+# claude code
+.claude/

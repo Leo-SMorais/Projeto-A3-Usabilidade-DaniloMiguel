@@ -49,7 +49,7 @@ export default function P3R() {
         <Link to="/p3r/guess" className="botao-guess">Persona Guess</Link>
       </header>
 
-      {erro && <div className="aviso-erro">Erro ao carregar.</div>}
+      {erro && <div className="aviso-erro" role="alert">Erro ao carregar.</div>}
 
       <div role="tablist" aria-label="Seções da página" className="abas abas-p3">
         <button type="button" role="tab" id="aba-normal" aria-selected={aba === 'normal'} aria-controls="painel-normal" tabIndex={aba === 'normal' ? 0 : -1} onKeyDown={teclaAba} className={'aba aba-p3 ' + (aba === 'normal' ? 'aba-ativa-p3' : '')} onClick={() => setAba('normal')}>Fusão Normal</button>
