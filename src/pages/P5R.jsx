@@ -30,6 +30,19 @@ export default function P5R() {
 
   if (carregando) return <LoaderP5R />
 
+  // navegacao por setas entre as abas (padrao de tabs acessivel)
+  const ordemAbas = ['normal', 'reversa', 'compendio']
+  function teclaAba(e) {
+    const i = ordemAbas.indexOf(aba)
+    let nova = null
+    if (e.key === 'ArrowRight') nova = ordemAbas[(i + 1) % ordemAbas.length]
+    if (e.key === 'ArrowLeft') nova = ordemAbas[(i - 1 + ordemAbas.length) % ordemAbas.length]
+    if (!nova) return
+    e.preventDefault()
+    setAba(nova)
+    document.getElementById('aba-' + nova)?.focus()
+  }
+
   // filtro do compendio - inline mesmo
   const q = busca.trim().toLowerCase()
   let filtradas = q
@@ -43,23 +56,31 @@ export default function P5R() {
         <Link to="/" className="voltar-p5">← Hub</Link>
         <h1 className="titulo-p5">Persona 5 Royal</h1>
         <div className="subtitulo">Velvet Room</div>
-        <button type="button" className="botao-ajuda" onClick={() => setTutorialAberto(true)}>?</button>
+        <button type="button" className="botao-ajuda" aria-label="Ajuda" onClick={() => setTutorialAberto(true)}>?</button>
       </header>
 
-      {erro && <div className="aviso-erro">Erro ao carregar. Tente recarregar a página.</div>}
+      {erro && <div className="aviso-erro" role="alert">Erro ao carregar. Tente recarregar a página.</div>}
 
-      <nav className="abas abas-p5">
-        <button type="button" className={'aba ' + (aba === 'normal' ? 'aba-ativa-p5' : '')} onClick={() => setAba('normal')}>Fusão Normal</button>
-        <button type="button" className={'aba ' + (aba === 'reversa' ? 'aba-ativa-p5' : '')} onClick={() => setAba('reversa')}>Busca Reversa</button>
-        <button type="button" className={'aba ' + (aba === 'compendio' ? 'aba-ativa-p5' : '')} onClick={() => setAba('compendio')}>Compêndio</button>
-      </nav>
+      <div role="tablist" aria-label="Seções da página" className="abas abas-p5">
+        <button type="button" role="tab" id="aba-normal" aria-selected={aba === 'normal'} aria-controls="painel-normal" tabIndex={aba === 'normal' ? 0 : -1} onKeyDown={teclaAba} className={'aba ' + (aba === 'normal' ? 'aba-ativa-p5' : '')} onClick={() => setAba('normal')}>Fusão Normal</button>
+        <button type="button" role="tab" id="aba-reversa" aria-selected={aba === 'reversa'} aria-controls="painel-reversa" tabIndex={aba === 'reversa' ? 0 : -1} onKeyDown={teclaAba} className={'aba ' + (aba === 'reversa' ? 'aba-ativa-p5' : '')} onClick={() => setAba('reversa')}>Busca Reversa</button>
+        <button type="button" role="tab" id="aba-compendio" aria-selected={aba === 'compendio'} aria-controls="painel-compendio" tabIndex={aba === 'compendio' ? 0 : -1} onKeyDown={teclaAba} className={'aba ' + (aba === 'compendio' ? 'aba-ativa-p5' : '')} onClick={() => setAba('compendio')}>Compêndio</button>
+      </div>
 
-      {aba === 'normal' && <FusaoNormalP5R personas={personas} onMostrar={setSelecionada} />}
-      {aba === 'reversa' && <FusaoReversaP5R personas={personas} onMostrar={setSelecionada} />}
+      {aba === 'normal' && (
+        <div role="tabpanel" id="painel-normal" aria-labelledby="aba-normal">
+          <FusaoNormalP5R personas={personas} onMostrar={setSelecionada} />
+        </div>
+      )}
+      {aba === 'reversa' && (
+        <div role="tabpanel" id="painel-reversa" aria-labelledby="aba-reversa">
+          <FusaoReversaP5R personas={personas} onMostrar={setSelecionada} />
+        </div>
+      )}
       {aba === 'compendio' && (
-        <div>
+        <div role="tabpanel" id="painel-compendio" aria-labelledby="aba-compendio">
           <div className="barra-busca">
-            <input type="text" className="input-busca" placeholder="Procurar por nome ou arcana..." value={busca} onChange={e => setBusca(e.target.value)} />
+            <input type="text" className="input-busca" aria-label="Procurar persona por nome ou arcana" placeholder="Procurar por nome ou arcana..." value={busca} onChange={e => setBusca(e.target.value)} />
             <div className="contagem">{filtradas.length} / {personas.length}</div>
           </div>
           <div className="grade">

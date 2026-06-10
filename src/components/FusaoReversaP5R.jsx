@@ -38,7 +38,11 @@ export default function FusaoReversaP5R({ personas, onMostrar }) {
       <button type="button" className="botao-calc" onClick={procurar} disabled={procurando} style={{ marginTop: '1rem' }}>
         {procurando ? 'Procurando...' : 'Procurar Registros'}
       </button>
-      {msg && <div className="msg-erro">{msg}</div>}
+      {msg && <div className="msg-erro" role="alert">{msg}</div>}
+      {/* anuncia o fim da busca pro leitor de tela (wcag 4.1.3) */}
+      <p className="visualmente-oculto" role="status">
+        {receitas && receitas.length > 0 ? receitas.length + ' receitas encontradas.' : ''}
+      </p>
       {receitas && receitas.length > 0 && (
         <ul className="receitas">
           {receitas.map((r, i) => (

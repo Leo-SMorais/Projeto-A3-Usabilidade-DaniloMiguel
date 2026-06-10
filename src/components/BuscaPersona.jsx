@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 
 // input com autocomplete pra escolher persona
 // prop tema: 'p5' ou 'p3'
@@ -6,6 +6,7 @@ export default function BuscaPersona({ personas, value, onChange, label, placeho
   const [texto, setTexto] = useState(value ? value.name : '')
   const [aberto, setAberto] = useState(false)
   const ref = useRef(null)
+  const inputId = useId()
 
   useEffect(() => {
     setTexto(value ? value.name : '')
@@ -44,10 +45,12 @@ export default function BuscaPersona({ personas, value, onChange, label, placeho
 
   return (
     <div className="input-persona-wrapper" ref={ref}>
-      {label && <label className={'label-input label-input' + sufixo}>{label}</label>}
+      {label && <label htmlFor={inputId} className={'label-input label-input' + sufixo}>{label}</label>}
       <input
+        id={inputId}
         type="text"
         className={'input-persona input-persona' + sufixo}
+        aria-label={label ? undefined : placeholder}
         placeholder={placeholder}
         value={texto}
         onChange={digitar}
