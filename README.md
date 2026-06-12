@@ -1,407 +1,340 @@
-# React + Vite
+# Persona Fusion Hub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação web para consultar, calcular e planejar fusões de Personas em
+**Persona 3 Reload** e **Persona 5 Royal**.
 
-Currently, two official plugins are available:
+O projeto foi desenvolvido como uma SPA em React, com foco em usabilidade,
+clareza visual e automatização de regras que normalmente exigem consulta manual
+a tabelas de arcanas, níveis, receitas especiais e exceções de cada jogo.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Integrantes
 
+- 823163058 - Matheus Pereira Pagaime
+- 823211819 - Henrique Doescher Dias
+- 823223786 - Caique Alves Correia da Silva
+- 824121134 - Leonardo de Souza Morais
+- 824217196 - Leonardo Kenji Sato
+- 822129662 - Daniel J. Rodrigues
 
-# 🃏 Persona Fusion Hub
+## Visão Geral
 
-<div align="center">
+No universo de Persona, a fusão de Personas depende de regras específicas:
 
-# ⚡ PERSONA FUSION HUB ⚡
+- combinação de arcanas;
+- média de nível das Personas usadas como base;
+- Personas especiais;
+- DLCs;
+- Demônios do Tesouro em Persona 5 Royal;
+- exceções próprias de cada jogo.
 
-### *"Roube o coração dos cálculos de fusão."*
+O **Persona Fusion Hub** reduz esse esforço ao oferecer uma interface direta
+para buscar Personas, calcular resultados e encontrar receitas reversas.
 
-![React](https://img.shields.io/badge/React-19+-61DAFB?style=for-the-badge\&logo=react\&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge\&logo=vite\&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge\&logo=javascript\&logoColor=black)
-![Node.js](https://img.shields.io/badge/API-Node.js-339933?style=for-the-badge\&logo=node.js\&logoColor=white)
-![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?style=for-the-badge)
+## Funcionalidades
 
----
+### Hub Inicial
 
-### 🎭 Calculadora de Fusões para Persona 3 Reload e Persona 5 Royal
+Tela inicial com escolha entre:
 
-**Planeje suas fusões. Descubra combinações. Domine a Velvet Room.**
+- Persona 5 Royal;
+- Persona 3 Reload.
 
-</div>
+Cada jogo possui identidade visual própria e rota dedicada.
 
----
+### Fusão Normal
 
-# 📖 Visão Geral
+Permite selecionar duas Personas e calcular o resultado da fusão.
 
-O **Persona Fusion Hub** é uma aplicação web desenvolvida para auxiliar jogadores de **Persona 3 Reload** e **Persona 5 Royal** a encontrarem rapidamente as melhores combinações de Personas.
+O fluxo valida entradas inválidas, impede fusão da mesma Persona consigo mesma
+e retorna a Persona resultante quando a combinação é válida.
 
-No universo de Persona, a mecânica de fusão da **Velvet Room** utiliza regras complexas envolvendo:
+### Busca Reversa
 
-* 🃏 Arcanas
-* 📈 Níveis das Personas
-* ⚔️ Fusões Especiais
-* 💎 Demônios do Tesouro
-* 👑 Personas DLC e Picaro
+Permite selecionar uma Persona alvo e buscar quais pares podem gerá-la.
 
-Realizar esses cálculos manualmente pode consumir muito tempo e exigir diversas tentativas dentro do jogo.
+O sistema simula combinações possíveis em memória e lista as receitas
+compatíveis com o resultado desejado.
 
-O objetivo deste projeto é automatizar completamente esse processo através de algoritmos de cálculo e busca, oferecendo uma interface moderna, intuitiva e rápida para consulta e planejamento de fusões.
+### Compêndio
 
----
+Lista pesquisável de Personas, com filtro por nome ou arcana.
 
-# 🎯 Funcionalidades
+Cada Persona pode ser aberta em um modal com informações detalhadas, como:
 
-## ⚔️ Guilhotina de Fusão (Cálculo Direto)
+- arcana;
+- nível;
+- atributos base;
+- fraquezas;
+- resistências;
+- imunidades;
+- reflexões;
+- absorções.
 
-Selecione duas Personas e descubra instantaneamente qual será o resultado da fusão.
+### Persona Guess
 
-### Recursos
+Minigame de adivinhação para Persona 3 Reload, inspirado em jogos de tentativa
+e pista.
 
-* Cálculo automático de Arcanas
-* Aplicação das regras oficiais dos jogos
-* Suporte a Personas DLC
-* Tratamento de Demônios do Tesouro
+O jogador recebe feedback sobre:
 
----
+- arcana;
+- nível;
+- fraquezas;
+- resistências;
+- imunidades.
 
-## 🔍 Busca Reversa de Fusões
+O modo possui treino e desafio diário, com persistência local para o desafio do
+dia.
 
-Deseja obter uma Persona específica?
+### Tutorial
 
-O sistema realiza uma varredura completa no compêndio utilizando algoritmos de busca para encontrar todas as combinações possíveis capazes de gerar a Persona desejada.
+O fluxo de Persona 5 Royal possui tutorial de primeira visita, com controle via
+`localStorage` para não exibir novamente após o usuário concluir ou pular.
 
-### Inclui
+## Escopo
 
-* Fusões comuns
-* Fusões avançadas
-* Fusões especiais
-* Variações DLC/Picaro
+### Incluído
 
----
-
-## 📊 Fichas Detalhadas das Personas
-
-Visualize informações completas através de modais interativos.
-
-### Dados Disponíveis
-
-* Arcana
-* Nível
-* Trait
-* Status Base
-* Força (ST)
-* Magia (MA)
-* Resistência (EN)
-* Agilidade (AG)
-* Sorte (LU)
-
-### Afinidades Elementais
-
-* ❌ Fraquezas
-* 🛡️ Resistências
-* 🔄 Repel
-* 🚫 Imunidades
-* 🔥 Absorções
-
----
-
-## 🎮 Persona Guess (Persona 3 Reload)
-
-Modo bônus inspirado em Wordle.
-
-O jogador deve descobrir qual Persona foi selecionada utilizando pistas relacionadas a:
-
-* Arcana
-* Nível
-* Afinidades
-* Estatísticas
-
----
-
-## 🎓 Tutorial Interativo
-
-Na primeira visita, o usuário recebe um guia rápido apresentando todas as funcionalidades da aplicação.
-
-As preferências ficam armazenadas localmente através do `localStorage`.
-
----
-
-# 📌 Escopo do Projeto
-
-## ✅ Incluído
-
-* Cálculo de Arcanas
-* Fusões por Nível
-* Fusões Especiais
-* Personas DLC/Picaro
-* Demônios do Tesouro
-* Estatísticas Base
-* Afinidades Elementais
-* Busca Reversa
-* Minigame Persona Guess
-
-## ❌ Não Incluído
-
-* Herança de Skills
-* Guias de Mapas
-* Localização de Itens
-* Estratégias de Combate
-* Builds de Personas
-
----
-
-# 🛠️ Tecnologias Utilizadas
-
-O projeto foi desenvolvido utilizando **React**, recriando toda a lógica de fusão dos jogos através de componentes reutilizáveis e gerenciamento moderno de estado.
-
-## ⚛️ Frontend
-
-### React
-
-Biblioteca principal da aplicação.
-
-Utilizada para:
-
-* Componentização da interface
-* Gerenciamento de estados
-* Renderização reativa
-* Reutilização de lógica
-* Atualização dinâmica dos dados
-
-### JavaScript (ES6+)
-
-* Async/Await
-* Promises
-* Fetch API
-* Manipulação de dados
-* Algoritmos de fusão
-
-### HTML5
-
-Estrutura semântica da aplicação.
-
-### CSS3
-
-Responsável por toda a identidade visual inspirada nos jogos.
-
-#### Persona 5 Royal
-
-🖤 Tema Phantom Thieves
-
-* Vermelho e Preto
-* Elementos angulares
-* Animações dinâmicas
-
-#### Persona 3 Reload
-
-💙 Tema Velvet Room
-
-* Tons azulados
-* Glassmorphism
-* Efeitos translúcidos
-
-Recursos utilizados:
-
-* Flexbox
-* CSS Grid
-* Keyframes
-* Clip-path
-* Responsividade
-
----
-
-## 🌐 Backend e Infraestrutura
-
-### Node.js
-
-Utilizado nas APIs responsáveis por fornecer os dados dos compêndios.
-
-### Express.js
-
-Criação dos endpoints REST consumidos pela aplicação.
-
-### Render
-
-Hospedagem das APIs em nuvem.
-
----
-
-# 🚀 Como Executar
-
-## 🌐 Versão Online
-
-Acesse a aplicação diretamente pelo navegador:
+- cálculo de fusão normal;
+- busca reversa;
+- suporte separado para Persona 3 Reload e Persona 5 Royal;
+- regras especiais por jogo;
+- tratamento de Demônios do Tesouro em P5R;
+- tratamento de Personas especiais e DLC;
+- compêndio pesquisável;
+- modal de detalhes;
+- Persona Guess para P3R;
+- cuidados básicos de acessibilidade.
+
+### Fora do escopo atual
+
+- herança de skills;
+- builds otimizadas de combate;
+- guias de mapas;
+- localização de itens;
+- estratégias de batalha;
+- autenticação de usuários;
+- painel administrativo.
+
+## Tecnologias
+
+| Camada | Tecnologia | Uso no projeto |
+|---|---|---|
+| Frontend | React 18 | Componentização da interface, estados e renderização reativa |
+| Build | Vite 5 | Ambiente de desenvolvimento e build de produção |
+| Rotas | React Router DOM | Navegação entre Hub, P5R, P3R e Persona Guess |
+| Linguagem | JavaScript ES6+ | Algoritmos de fusão, busca reversa e chamadas HTTP |
+| Estilo | CSS3 | Temas visuais, responsividade, grid, flexbox e animações |
+| API | Serverless function | Proxy para consumo das APIs externas |
+
+## APIs Consumidas
+
+O frontend consulta dados de Personas por meio de um proxy serverless local em
+`api/proxy.js`.
+
+Endpoints externos usados pela aplicação:
 
 ```text
-👉 [Link da aplicação](https://matheuspagaime17.github.io/Persona-Fusion-Calculator/)
+Persona 5 Royal:
+https://mpppersona5-api.onrender.com/personas/
+
+Persona 3 Reload:
+https://persona-compendium.onrender.com/personas/
 ```
 
----
+O proxy recebe uma URL externa por query string:
 
-## 💻 Executando Localmente
-
-Clone o repositório:
-
-```bash
-git clone https://github.com/seu-usuario/persona-fusion-hub.git
+```text
+/api/proxy?url=<url-externa>
 ```
 
-Entre na pasta do projeto:
+Ele repassa o conteúdo da API e adiciona cache HTTP:
 
-```bash
-cd persona-fusion-hub
+```http
+Cache-Control: s-maxage=3600, stale-while-revalidate=86400
 ```
 
-Instale as dependências:
+## Rotas da Aplicação
+
+| Rota | Tela |
+|---|---|
+| `/` | Hub inicial |
+| `/p5r` | Calculadora de Persona 5 Royal |
+| `/p3r` | Calculadora de Persona 3 Reload |
+| `/p3r/guess` | Persona Guess |
+
+## Arquitetura do Projeto
+
+```text
+persona-fusion-hub
+├── api
+│   └── proxy.js
+├── public
+├── src
+│   ├── components
+│   │   ├── BuscaPersona.jsx
+│   │   ├── FusaoNormalP3R.jsx
+│   │   ├── FusaoNormalP5R.jsx
+│   │   ├── FusaoReversaP3R.jsx
+│   │   ├── FusaoReversaP5R.jsx
+│   │   ├── LoaderP3R.jsx
+│   │   ├── LoaderP5R.jsx
+│   │   ├── ModalPersona.jsx
+│   │   └── Tutorial.jsx
+│   ├── dados
+│   │   ├── arcanasP3R.js
+│   │   └── arcanasP5R.js
+│   ├── pages
+│   │   ├── Hub.jsx
+│   │   ├── P3R.jsx
+│   │   ├── P3RGuess.jsx
+│   │   └── P5R.jsx
+│   ├── api.js
+│   ├── App.jsx
+│   ├── fusao.js
+│   ├── fusaoP3R.js
+│   ├── main.jsx
+│   └── style.css
+├── index.html
+├── package.json
+└── vite.config.js
+```
+
+## Organização da Lógica
+
+### `src/fusao.js`
+
+Contém a lógica de fusão para Persona 5 Royal.
+
+Responsabilidades principais:
+
+- identificar Demônios do Tesouro;
+- aplicar receitas especiais;
+- tratar Personas Picaro;
+- calcular fusão normal por arcana e nível;
+- executar busca reversa por simulação de pares.
+
+### `src/fusaoP3R.js`
+
+Contém a lógica de fusão para Persona 3 Reload.
+
+Responsabilidades principais:
+
+- aplicar receitas especiais;
+- remover DLCs e especiais do pool de fusão normal;
+- calcular resultado por arcana e média de nível;
+- executar busca reversa com limite de resultados.
+
+### `src/api.js`
+
+Centraliza as chamadas para os compêndios externos e marca Personas especiais
+com base nos dados locais de cada jogo.
+
+### `api/proxy.js`
+
+Função serverless responsável por buscar dados externos no lado do servidor e
+repassar a resposta para o frontend.
+
+## Acessibilidade e Usabilidade
+
+O projeto possui cuidados implementados para melhorar navegação e leitura:
+
+- foco visível em inputs e elementos interativos;
+- abas com `role="tablist"`, `role="tab"` e `role="tabpanel"`;
+- uso de `aria-selected`, `aria-controls` e `aria-labelledby`;
+- mensagens de erro com `role="alert"`;
+- mensagens dinâmicas com `role="status"`;
+- modais com `role="dialog"` e `aria-modal="true"`;
+- controle de foco dentro dos modais;
+- retorno de foco ao elemento que abriu o modal;
+- textos visualmente ocultos para leitores de tela;
+- Persona Guess com símbolos e texto complementar, evitando depender apenas de
+  cor.
+
+Esses pontos se relacionam principalmente com critérios WCAG de foco visível,
+nome/função/valor, mensagens de status e uso de cor.
+
+## Como Executar
+
+### Pré-requisitos
+
+- Node.js instalado;
+- npm instalado.
+
+### Instalação
 
 ```bash
 npm install
 ```
 
-Inicie o ambiente de desenvolvimento:
+### Ambiente de desenvolvimento
 
 ```bash
 npm run dev
 ```
 
-A aplicação ficará disponível localmente através do endereço exibido pelo Vite.
+O Vite exibirá a URL local no terminal.
 
----
+Observação: o frontend usa `/api/proxy` para buscar dados externos. Essa função
+foi escrita no formato serverless. Em desenvolvimento com Vite puro, pode ser
+necessário rodar a aplicação em um ambiente compatível com funções serverless
+ou configurar um proxy local equivalente para testar a integração completa com
+as APIs.
 
-# 📡 Integração com APIs
+### Build de produção
 
-A aplicação consome APIs REST responsáveis por disponibilizar os dados dos compêndios dos jogos.
-
-## Persona 5 Royal
-
-```http
-https://mpppersona5-api.onrender.com/personas/
+```bash
+npm run build
 ```
 
-## Persona 3 Reload
+### Prévia do build
 
-```http
-https://persona-compendium.onrender.com/personas/
+```bash
+npm run preview
 ```
 
----
+## Scripts Disponíveis
 
-# 🛡️ Estratégias de Resiliência
+| Script | Descrição |
+|---|---|
+| `npm run dev` | Inicia o servidor de desenvolvimento do Vite |
+| `npm run build` | Gera a versão de produção em `dist/` |
+| `npm run preview` | Serve localmente o build gerado |
 
-## 🔓 API Pública
+## Decisões de Projeto
 
-As APIs funcionam em modo somente leitura.
+- A lógica de P3R e P5R fica separada para evitar misturar regras diferentes.
+- Componentes de fusão e busca são separados por jogo para permitir ajustes
+  específicos sem afetar a outra calculadora.
+- A interface usa temas visuais distintos para reforçar a identidade de cada
+  jogo.
+- O proxy serverless reduz acoplamento entre frontend e APIs externas.
+- A busca reversa prioriza clareza e previsibilidade, simulando combinações e
+  filtrando resultados inválidos.
 
-Não é necessário utilizar:
+## Limitações Conhecidas
 
-* API Keys
-* Tokens
-* Autenticação
+- O projeto depende da disponibilidade das APIs externas.
+- O proxy serverless precisa de ambiente compatível para funcionar fora do Vite
+  puro.
+- A aplicação não calcula herança de skills.
+- A busca reversa pode exigir otimizações futuras caso o volume de dados cresça.
+- Imagens externas de Personas podem sofrer bloqueios de hotlinking dependendo
+  da origem.
 
----
+## Possíveis Melhorias Futuras
 
-## 🔥 Warm-Up Automático
+- cache local dos compêndios;
+- retry com backoff para APIs em cold start;
+- testes automatizados para os algoritmos de fusão;
+- documentação dos casos especiais de cada jogo;
+- melhorias de performance na busca reversa;
+- suporte a herança de skills;
+- tratamento local ou self-hosting de imagens das Personas.
 
-Como os servidores utilizam o plano gratuito do Render, eles podem entrar em estado de repouso.
+## Objetivo Acadêmico
 
-Ao abrir a aplicação, um ping automático é realizado para ativar os serviços antes da primeira consulta.
-
----
-
-## ⏱️ Retry com Backoff Exponencial
-
-Em caso de falha:
-
-```text
-Tentativa 1 → 4s
-Tentativa 2 → 8s
-Tentativa 3 → 16s
-```
-
-Isso reduz falhas causadas por inicialização fria dos servidores.
-
----
-
-## 💾 Cache Inteligente
-
-Após o primeiro carregamento:
-
-* Os dados são armazenados no localStorage
-* É registrado um timestamp de validade
-* O cache permanece válido por 24 horas
-
-Resultado:
-
-⚡ Carregamentos praticamente instantâneos em visitas futuras.
-
----
-
-# 📂 Estrutura do Projeto
-
-```text
-📦 persona-fusion-hub
-┃
-┣ 📂 public
-┃
-┣ 📂 src
-┃ ┣ 📂 components
-┃ ┣ 📂 pages
-┃ ┣ 📂 hooks
-┃ ┣ 📂 services
-┃ ┣ 📂 assets
-┃ ┣ 📂 utils
-┃ ┣ 📜 App.jsx
-┃ ┗ 📜 main.jsx
-┃
-┣ 📜 package.json
-┣ 📜 vite.config.js
-┗ 📜 README.md
-```
-
----
-
-# 🎭 Filosofia do Projeto
-
-O Persona Fusion Hub foi construído com três objetivos principais:
-
-### ⚡ Performance
-
-Consultas rápidas e poucos cliques.
-
-### 🎨 Imersão
-
-Visual inspirado diretamente na identidade dos jogos Persona.
-
-### 🧠 Usabilidade
-
-Transformar regras complexas de fusão em uma experiência simples e intuitiva.
-
----
-
-# 🙏 Agradecimentos Especiais
-
-Gostaríamos de agradecer ao criador e mantenedor da Persona Compendium API:
-
-### ⭐ luylish
-
-Seu trabalho de catalogação das Personas, atributos, afinidades e informações dos jogos foi essencial para a validação dos cálculos e para o desenvolvimento do minigame Persona Guess.
-
-Muito obrigado por sua contribuição para a comunidade Persona.
-
-E ao Professor Danilo :)
-
----
-
-<div align="center">
-
-# 🎭 "Eu sou tu, tu és eu."
-
-### Obrigado por visitar o Persona Fusion Hub!
-
-⭐ Se gostou do projeto, considere deixar uma estrela no repositório.
-
-</div>
-
-
-
+Este projeto foi desenvolvido com foco em usabilidade, organização de interface
+e aplicação prática de regras de domínio em uma aplicação web. Ele demonstra
+como transformar uma mecânica complexa de jogo em uma experiência mais clara,
+guiada e acessível para o usuário.
